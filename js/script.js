@@ -46,25 +46,26 @@ document.addEventListener('click', (e) => {
 
 // Modal Box
 const itemDetailModal = document.querySelector('#item-detail-modal');
-const itemDetailButtons = document.querySelectorAll('.item-detail-button');
 
-itemDetailButtons.forEach((btn) => {
-    btn.onclick = (e) => {
-        itemDetailModal.style.display = 'flex';
-        e.preventDefault();
-    }
-})
-
+// Delegasi event ke .products
+// disini kita mencari elemen yang sudah pasti ada di luar yaitu elemen parentnya
+document.querySelector('.products').addEventListener('click', function(e) {
+  const target = e.target.closest('.item-detail-button');
+  if (target) {
+    e.preventDefault();
+    itemDetailModal.style.display = 'flex';
+  }
+});
 
 // Close Modal
 document.querySelector('.modal .close-icon').onclick = (e) => {
-    itemDetailModal.style.display = 'none';
-    e.preventDefault();
-}
+  itemDetailModal.style.display = 'none';
+  e.preventDefault();
+};
 
 // Click outside modal
 window.onclick = (e) => {
-    if(e.target === itemDetailModal) {
-        itemDetailModal.style.display = 'none';
-    }
-}
+  if (e.target === itemDetailModal) {
+    itemDetailModal.style.display = 'none';
+  }
+};
