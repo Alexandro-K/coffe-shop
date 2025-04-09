@@ -19,7 +19,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- App -->
-    <script src="src/app.js"></script>
+    <script src="src/app.js" async></script>
+
+    <!-- Midtrans -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-uD1KFL_CIIOqOKYT"></script>
+
   </head>
 
   <body>
@@ -52,8 +56,8 @@
       <!-- Search Form end -->
     
       <!-- Shopping Cart start -->
-      <div class="shopping-cart">
-        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+      <div class="shopping-cart" >
+        <template x-for="item in $store.cart.items" x-keys="item.id">
           <div class="cart-item">
             <img :src="`img/products/${item.img}`" :alt="item.name">
             <div class="item-detail">
@@ -69,9 +73,10 @@
         </template>
         <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem;">Cart is Empty</h4>
         <h4 x-show="$store.cart.items.length">Total : <span x-text="rupiah($store.cart.total)"></span></h4>
-
         <div class="form-container" x-show="$store.cart.items.length">
           <form action="" id="checkoutForm">
+            <input type="hidden" name="items" x-model="JSON.stringify($store.cart.items)">
+            <input type="hidden" name="total" x-model="$store.cart.total">
             <h5>Customer Detail</h5>
 
             <label for="name">
@@ -80,13 +85,13 @@
             </label>
             <label for="email">
               <span>Email</span>
-              <input type="text" email="email" id="email">
+              <input type="text" name="email" id="email">
             </label>
             <label for="phone">
               <span>Phone</span>
-              <input type="number" phone="phone" id="phone" autocomplete="off">
+              <input type="number" name="phone" id="phone" autocomplete="off">
             </label>
-            <button class="checkout-button" type="submit" id="checkout-button" value="checkout">Checkout</button>
+            <button class="checkout-button disabled" type="submit" id="checkout-button" value="checkout">Checkout</button>
           </form>
         </div>
       </div>
@@ -157,7 +162,7 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates distinctio modi tempora corporis hic iste?</p>
 
       <div class="row">
-        <template x-for="(item, index) in items" x-key="index">
+        <template x-for="item in items" x-key="item.id">
           <div class="product-card">
   
             <div class="product-image">
